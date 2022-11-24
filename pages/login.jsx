@@ -1,11 +1,17 @@
+import { Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import getServerSession from "../utils/getServerSession";
-
+import Input from "../components/Input";
 export default function SignIn() {
   const router = useRouter();
   const loginHandler = async () => {
+    if (username.trim().length == 0 || password.trim().length === 0) {
+      setError("Enter both Username & Password");
+      return;
+    }
+
     const res = await signIn("credentials", {
       redirect: false,
       username,
@@ -27,28 +33,31 @@ export default function SignIn() {
 
   return (
     <div className="min-h-screen gap-2 flex-col flex flex-1 justify-center items-center">
-      <div className="flex flex-col gap-2">
-        <input
-          placeholder="name"
+      <div className="bg-gray-100 p-32 rounded-xl space-y-4">
+        <p className="text-4xl font-semibold tracking-tight">Login</p>
+        <Input
+          setValue={setUsername}
           value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          label="Username"
+          type="text"
         />
-        <input
-          type="password"
-          placeholder="password"
+        <Input
+          setValue={setPassword}
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          label="Password"
+          type="password"
         />
+        <Button
+          fullWidth
+          variant="contained"
+          className="px-2 bg-blue-500"
+          onClick={loginHandler}
+        >
+          <p className="pl-2">Sign in</p>
+        </Button>
+
+        {<p className="text-red-400">{error}</p>}
       </div>
-
-      <button
-        className="bg-[#0b5893] flex justify-between px-2"
-        onClick={loginHandler}
-      >
-        <p className="pl-2">Sign in</p>
-      </button>
-
-      {error && <p className="text-red-400">{error}</p>}
     </div>
   );
 }
