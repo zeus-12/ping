@@ -1,9 +1,10 @@
-import { Button } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import getServerSession from "../utils/getServerSession";
 import Input from "../components/Input";
+import Button from "../components/Button";
+
 export default function SignIn() {
   const router = useRouter();
   const loginHandler = async () => {
@@ -47,12 +48,8 @@ export default function SignIn() {
           label="Password"
           type="password"
         />
-        <Button
-          fullWidth
-          variant="contained"
-          className="px-2 bg-blue-500"
-          onClick={loginHandler}
-        >
+
+        <Button fullWidth={true} onClick={loginHandler}>
           <p className="pl-2">Sign in</p>
         </Button>
 
