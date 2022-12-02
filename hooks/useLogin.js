@@ -6,7 +6,8 @@ export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
-  const SERVER_URL = "http://localhost:4000";
+  const SERVER_URL =
+    process.env.SERVER_URL || "https://ping-backend-production.up.railway.app";
 
   const router = useRouter();
   const login = async (username, password) => {
