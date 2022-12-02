@@ -1,36 +1,31 @@
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useState } from "react";
-import getServerSession from "../utils/getServerSession";
 import Input from "../components/Input";
 import Button from "../components/Button";
+import { LoadingButton } from "@mui/lab";
+
+import { useLogin } from "../hooks/useLogin";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function SignIn() {
+  const { user } = useAuthContext();
+  const { login, error } = useLogin();
   const router = useRouter();
-  const loginHandler = async () => {
-    if (username.trim().length == 0 || password.trim().length === 0) {
-      setError("Enter both Username & Password");
-      return;
-    }
 
-    const res = await signIn("credentials", {
-      redirect: false,
-      username,
-      password,
-      callbackUrl: `${window.location.origin}`,
-    });
-    if (res.status != 200) {
-      setError("Incorrect credentials");
-
-      setUsername("");
-      setPassword("");
-    } else {
-      router.push("/");
-    }
-  };
-  const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const loginHandler = async () => {
+    if (username.trim().length == 0 || password.trim().length === 0) {
+      return;
+    } else {
+      setLoading(true);
+
+      await login(username, password);
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen gap-2 flex-col flex flex-1 justify-center items-center">
@@ -49,29 +44,18 @@ export default function SignIn() {
           type="password"
         />
 
-        <Button fullWidth={true} onClick={loginHandler}>
-          <p className="pl-2">Sign in</p>
-        </Button>
+        <LoadingButton
+          variant="outlined"
+          fullWidth={true}
+          onClick={loginHandler}
+          loading={loading}
+          className="px-2 bg-blue-500 text-white hover:bg-blue-400"
+        >
+          Sign in
+        </LoadingButton>
 
-        {<p className="text-red-400">{error}</p>}
+        {error && <p className="text-red-400">{error}</p>}
       </div>
     </div>
   );
 }
-
-export const getServerSideProps = async (context) => {
-  const session = await getServerSession(context.req, context.res);
-
-  if (session) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-
-  return {
-    props: {},
-  };
-};
