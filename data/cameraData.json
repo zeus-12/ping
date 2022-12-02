@@ -1,0 +1,67 @@
+[
+    {
+        "id": "1",
+        "location": {
+        "type": "Point",
+        "coordinates": [80.821603, 25.62163]
+        },
+        "buildingName": "building1",
+        "cameraName": "camera1",
+        "streamUrl": "http://localhost:3000/stream1",
+        "status": "ACTIVE",
+        "createdAt": "2020-05-05T12:00:00.000Z",
+        "updatedAt": "2020-05-05T12:00:00.000Z"
+    },
+    {
+        "id": "2",
+        "location": {
+        "type": "Point",
+        "coordinates": [80.921603, 25.5163]
+        },
+        "buildingName": "building2",
+        "cameraName": "camera2",
+        "streamUrl": "http://localhost:3000/stream2",
+        "status": "ACTIVE",
+        "createdAt": "2020-05-05T12:00:00.000Z",
+        "updatedAt": "2020-05-05T12:00:00.000Z"
+    },
+    {
+        "id": "3",
+        "location": {
+        "type": "Point",
+        "coordinates": [80.871603, 25.67163]
+        },
+        "buildingName": "building3",
+        "cameraName": "camera3",
+        "streamUrl": "http://localhost:3000/stream3",
+        "status": "ACTIVE",
+        "createdAt": "2020-05-05T12:00:00.000Z",
+        "updatedAt": "2020-05-05T12:00:00.000Z"
+    },
+    {
+        "id": "4",
+        "location": {
+        "type": "Point",
+        "coordinates": [80.751603, 25.52163]
+        },
+        "buildingName": "building4",
+        "cameraName": "camera4",
+        "streamUrl": "http://localhost:3000/stream4",
+        "status": "ACTIVE",
+        "createdAt": "2020-05-05T12:00:00.000Z",
+        "updatedAt": "2020-05-05T12:00:00.000Z"
+    },
+    {
+        "id": "5",
+        "location": {
+        "type": "Point",
+        "coordinates": [80.851603, 25.63163]
+        },
+        "buildingName": "building5",
+        "cameraName": "camera5",
+        "streamUrl": "http://localhost:3000/stream5",
+        "status": "ACTIVE",
+        "createdAt": "2020-05-05T12:00:00.000Z",
+        "updatedAt": "2020-05-05T12:00:00.000Z"
+    }
+]

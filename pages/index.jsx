@@ -1,14 +1,13 @@
 import { signOut } from "next-auth/react";
-import Button from "../components/Button";
+import AppBar from "../components/AppBar";
+import HomeLayout from "../components/HomeLayout";
 import getServerSession from "../utils/getServerSession";
 
 export default function Home() {
   return (
-    <div className="flex ">
-      admin app
-      <Button onClick={signOut}>
-        <p>Logout</p>
-      </Button>
+    <div >
+      <AppBar appBarTitle="Admin Dashboard" actionButtonText="Sign Out"  actionButtonOnClick={signOut} />
+      <HomeLayout />
     </div>
   );
 }
