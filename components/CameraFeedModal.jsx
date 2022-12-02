@@ -13,13 +13,13 @@ const CameraFeedModal = ({open, setOpen, cameraDetails}) => {
     return (
         <Dialog open={open} onClose={handleClose}>
             <DialogTitle sx={{ display: "flex", justifyContent: "space-between" }}>
-                <Typography variant="h6"> {cameraDetails?.cameraName} </Typography>
+                <Typography variant="h6"> {cameraDetails?.camera_name} </Typography>
                 <IconButton onClick={handleClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
             <DialogContent>
-                <Box sx={{ width: "60vw", height: "60vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+                <Box sx={{ width: "400px", height: "60vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
                     <Typography variant="h6"> Camera Feed </Typography>
                 </Box>
             </DialogContent>

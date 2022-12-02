@@ -14,15 +14,39 @@ const HomeLayout = () => {
     const [cameras, setCameras] = useState([]);
     const [selectedCameraIndex, setSelectedCameraIndex] = useState(0);
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        setRequests(requestData.default);
-        setCameras(cameraData.default);
-    }, []);
+    const [ listening, setListening ] = useState(false);
+  
+    useEffect( () => {
+      if (!listening) {
+        const events = new EventSource('http://localhost:4000/connect');
+  
+        events.onmessage = (event) => {
+          const parsedData = JSON.parse(event.data);
+  
+          if (parsedData) {
+            setRequests((prevRequests) => {
+                return [...prevRequests, parsedData];
+            });
+        }
+        };
+  
+        setListening(true);
+      }
+      console.log(requests.length);
+      if (requests.length === 1) {
+          setCameras(requests[0].nearestCameras)
+      }
+    }, [listening, requests]);
 
     const handleCameraClick = (index) => {
         setSelectedCameraIndex(index);
         setOpen(true);
+    };
+
+    const handleRequestClick = (index) => {
+        setSelectedRequestIndex(index);
+        setSelectedCameraIndex(0);
+        setCameras(requests[index].nearestCameras);
     };
     
     return (
@@ -32,8 +56,8 @@ const HomeLayout = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Paper sx={{ height: "88vh", border: "1px solid #d3d3d3" }}>
-                            <MapWithNoSSR requests={requests} selectedRequestIndex={selectedRequestIndex} setSelectedRequestIndex={setSelectedRequestIndex}
-                                cameras={cameras} selectedCameraIndex={selectedCameraIndex} setSelectedCameraIndex={setSelectedCameraIndex} />
+                            <MapWithNoSSR requests={requests} selectedRequestIndex={selectedRequestIndex} handleRequestClick={(index) => handleRequestClick(index)}
+                                cameras={cameras} selectedCameraIndex={selectedCameraIndex} />
                         </Paper>
                     </Grid>
                 </Grid>
@@ -43,15 +67,17 @@ const HomeLayout = () => {
                     <Box sx={{ p: 0.3, backgroundColor: "#d3d3d3", textAlign: "center", borderRadius: "5px 5px 0px 0px" }}>
                         <Typography variant="h6"> Camera Feed </Typography>
                     </Box>
-                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        {cameras && cameras.map((camera, index) => (
-                            <ListItem key={index} disablePadding sx={{borderBottom: "1px solid #d3d3d3"}}> 
-                                <ListItemButton onClick={() => handleCameraClick(index)}>
-                                    <ListItemText primary={camera.cameraName} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))}
-                    </List>
+                    <Box sx={{ maxHeight: '80vh', overflow: 'auto' }}>
+                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                            {cameras && cameras.map((camera, index) => (
+                                <ListItem key={index} disablePadding sx={{borderBottom: "1px solid #d3d3d3"}}> 
+                                    <ListItemButton onClick={() => handleCameraClick(index)}>
+                                        <ListItemText primary={camera.camera_name} />
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
+                    </Box>
                 </Paper>
             </Grid>
             <Grid item xs={3}>
@@ -63,7 +89,7 @@ const HomeLayout = () => {
                         <List>
                             {requests && requests.map((request, index) => (
                                 <ListItem key={request.id}>
-                                    <RequestCard key={request.id} request={request} index={index} selectedRequestIndex={selectedRequestIndex} setSelectedRequestIndex={setSelectedRequestIndex} />
+                                    <RequestCard key={request.id} request={request} index={index} selectedRequestIndex={selectedRequestIndex} handleRequestClick={(index) => handleRequestClick(index)} />
                                 </ListItem>
                             ))}
                         </List>
