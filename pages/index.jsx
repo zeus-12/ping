@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import AppBar from "../components/AppBar";
 import HomeLayout from "../components/HomeLayout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { CircularProgress } from "@mui/material";
 
 export default function Home() {
   const { user } = useAuthContext();
@@ -18,6 +19,12 @@ export default function Home() {
       </div>
     );
   } else {
-    return <div className="text-red-400">loading...</div>;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div>
+          <CircularProgress />
+        </div>
+      </div>
+    );
   }
 }
