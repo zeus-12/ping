@@ -1,13 +1,12 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
+import { SERVER_URL } from "../utils/constants";
 
 export const useLogin = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
-  const SERVER_URL =
-    process.env.SERVER_URL || "https://ping-backend-production.up.railway.app";
 
   const router = useRouter();
   const login = async (username, password) => {
@@ -17,7 +16,7 @@ export const useLogin = () => {
     const response = await fetch(`${SERVER_URL}/api/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password }).token,
     });
     const json = await response.json();
 
