@@ -2,12 +2,12 @@ import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { CameraAltSharp, ExitToApp as LogoutIcon } from "@mui/icons-material";
 import { useLogout } from "../hooks/useLogout";
 import { useState } from "react";
-import CameraListsModal from "./CameraListsModal";
+import CameraListModal from "./CameraListModal";
 
 const Appbar = () => {
   const { logout } = useLogout();
 
-  const [isCameraListsModalOpen, setIsCameraListsModalOpen] = useState(false);
+  const [isCameraListModalOpen, setIsCameraListModalOpen] = useState(false);
 
   return (
     <AppBar position="static">
@@ -17,7 +17,7 @@ const Appbar = () => {
         </Typography>
         <div style={{ display: "flex", gap: "1rem" }}>
           <Button
-            onClick={setIsCameraListsModalOpen}
+            onClick={setIsCameraListModalOpen}
             color="inherit"
             startIcon={<CameraAltSharp />}
             sx={{ border: "1px solid white" }}
@@ -35,6 +35,10 @@ const Appbar = () => {
           </Button>
         </div>
       </Toolbar>
+      <CameraListModal
+        open={isCameraListModalOpen}
+        closeModal={() => setIsCameraListModalOpen((o) => !o)}
+      />
     </AppBar>
   );
 };
