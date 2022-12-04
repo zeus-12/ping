@@ -21,6 +21,9 @@ const MapWithNoSSR = dynamic(() => import("./Map"), { ssr: false });
 const HomeLayout = () => {
   const [selectedRequestIndex, setSelectedRequestIndex] = useState(0);
   const [requests, setRequests] = useState([]);
+  // last 10 resolved requests
+  // todo display a separate tab showing recent requests
+  const [recent, setRecent] = useState([]);
   const [cameras, setCameras] = useState([]);
   const [selectedCameraIndex, setSelectedCameraIndex] = useState(0);
   const [open, setOpen] = useState(false);
@@ -102,7 +105,7 @@ const HomeLayout = () => {
               {cameras &&
                 cameras.map((camera, index) => (
                   <ListItem
-                    key={index}
+                    key={camera.id}
                     disablePadding
                     sx={{ borderBottom: "1px solid #d3d3d3" }}
                   >
@@ -133,6 +136,8 @@ const HomeLayout = () => {
                 requests.map((request, index) => (
                   <ListItem key={request.id}>
                     <RequestCard
+                      setRequests={setRequests}
+                      setRecent={setRecent}
                       key={request.id}
                       request={request}
                       index={index}

@@ -1,9 +1,13 @@
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { ExitToApp as LogoutIcon } from "@mui/icons-material";
+import { CameraAltSharp, ExitToApp as LogoutIcon } from "@mui/icons-material";
 import { useLogout } from "../hooks/useLogout";
+import { useState } from "react";
+import CameraListsModal from "./CameraListsModal";
 
 const Appbar = () => {
   const { logout } = useLogout();
+
+  const [isCameraListsModalOpen, setIsCameraListsModalOpen] = useState(false);
 
   return (
     <AppBar position="static">
@@ -11,14 +15,25 @@ const Appbar = () => {
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           Admin Dashboard
         </Typography>
-        <Button
-          onClick={logout}
-          color="inherit"
-          startIcon={<LogoutIcon />}
-          sx={{ border: "1px solid white" }}
-        >
-          Sign Out
-        </Button>
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <Button
+            onClick={setIsCameraListsModalOpen}
+            color="inherit"
+            startIcon={<CameraAltSharp />}
+            sx={{ border: "1px solid white" }}
+          >
+            Cameras
+          </Button>
+
+          <Button
+            onClick={logout}
+            color="inherit"
+            startIcon={<LogoutIcon />}
+            sx={{ border: "1px solid white" }}
+          >
+            Sign Out
+          </Button>
+        </div>
       </Toolbar>
     </AppBar>
   );
