@@ -28,3 +28,7 @@ a {
     color: black;
   }
 }
+
+.leaflet-bottom.leaflet-right {
+  display: none;
+}
