@@ -13,8 +13,10 @@ import { useState, useEffect } from "react";
 // import * as requestData from "../data/requestsData.json";
 // import * as cameraData from "../data/cameraData.json";
 import RequestCard from "./RequestCard";
-import CameraFeedModal from "./CameraFeedModal";
 import { SERVER_URL } from "../utils/constants";
+const CameraFeedModal = dynamic(() => import("./CameraFeedModal"), {
+  ssr: false,
+});
 
 const MapWithNoSSR = dynamic(() => import("./Map"), { ssr: false });
 
