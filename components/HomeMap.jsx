@@ -12,7 +12,7 @@ export function ChangeView({ coords }) {
 export const helpIcon = new Icon({ iconUrl: "/images/help.svg", iconSize: [40, 40] });
 export const cctvIcon = new Icon({ iconUrl: "/images/cctv.svg", iconSize: [40, 40] });
 
-const Map = ({ requests, selectedRequestIndex, handleRequestClick, cameras, selectedCameraIndex }) => {
+const HomeMap = ({ requests, selectedRequestIndex, handleRequestClick, cameras, selectedCameraIndex }) => {
     const [center, setCenter] = useState([12.989950754997258, 80.2319943225336]);
   
     useEffect(() => {
@@ -38,4 +38,4 @@ const Map = ({ requests, selectedRequestIndex, handleRequestClick, cameras, sele
     );
 };
 
-export default Map;
+export default HomeMap;

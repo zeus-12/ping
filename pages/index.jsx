@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import AppBar from "../components/AppBar";
 import HomeLayout from "../components/HomeLayout";
 import { useAuthContext } from "../hooks/useAuthContext";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, CssBaseline } from "@mui/material";
 
 export default function Home() {
   const { user } = useAuthContext();
@@ -14,6 +14,7 @@ export default function Home() {
   if (user) {
     return (
       <div>
+        <CssBaseline />
         <AppBar />
         <HomeLayout />
       </div>
