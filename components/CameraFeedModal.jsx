@@ -1,8 +1,9 @@
 import { useReactMediaRecorder } from "react-media-recorder";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SERVER_URL } from "../utils/constants";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { BlobServiceClient } from "@azure/storage-blob";
 import {
   Box,
   Button,
@@ -20,9 +21,9 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
 
   const { user } = useAuthContext();
   const liveStreamRef = useRef(null);
-  const canvasElt = document.getElementById("liveFeed");
+  // const canvasElt = document.getElementById("liveFeed");
 
-  const stream = canvasElt?.captureStream(25); // 25 FPS
+  // const stream = canvasElt?.captureStream(25); // 25 FPS
 
   const {
     status,
@@ -49,10 +50,52 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
     setStartTiming(null);
   };
 
+  const uploadFileToBlob = useCallback(async (file, newFileName) => {
+    const containerName = "recordings";
+    const sasToken =
+      "?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-29T17:17:36Z&st=2022-12-11T09:17:36Z&spr=https,http&sig=AibAEwBUrfVJ2sDVSmmymrF%2FLVeCB4ay1h0j5NzYhQg%3D";
+    // setLoading(true);
+
+    if (!file) {
+      console.log("no file");
+      // errorNotification("No file selected");
+      return;
+    } else {
+      const blobService = new BlobServiceClient(
+        `https://ping12.blob.core.windows.net/?${sasToken}`
+      );
+
+      try {
+        const containerClient = blobService.getContainerClient(containerName);
+        const blobClient = containerClient.getBlockBlobClient(newFileName);
+        const options = { blobHTTPHeaders: { blobContentType: file.type } };
+
+        const data = await blobClient.uploadData(file, options);
+
+        // todo notification
+      } catch (error) {
+        // todo notification
+      }
+    }
+  }, []);
+
   const saveRecordingToDb = async () => {
-    if (!startTiming) return;
+    console.log("hi");
+    if (!startTiming || !mediaBlobUrl) return;
+    console.log("hi again");
 
     // upload mediaBlobUrl to azure blob storage
+    const newFileName = `heythere.mp4`;
+    let metadata = {
+      type: "video/mp4",
+    };
+    let file = new File([mediaBlobUrl], newFileName, metadata);
+    console.log(file);
+    var url = URL.createObjectURL(file);
+    console.log(url);
+
+    await uploadFileToBlob(file, newFileName);
+
     const response = await fetch(`${SERVER_URL}/api/record`, {
       method: "POST",
       headers: {
