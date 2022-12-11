@@ -7,6 +7,8 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
@@ -18,18 +20,17 @@ const CameraFeedModal = dynamic(() => import("./CameraFeedModal"), {
   ssr: false,
 });
 
-const MapWithNoSSR = dynamic(() => import("./Map"), { ssr: false });
+const MapWithNoSSR = dynamic(() => import("./HomeMap"), { ssr: false });
 
 const HomeLayout = () => {
   const [selectedRequestIndex, setSelectedRequestIndex] = useState(0);
-  const [requests, setRequests] = useState([]);
-  // last 10 resolved requests
-  // todo display a separate tab showing recent requests
-  const [recent, setRecent] = useState([]);
+  const [liveRequests, setLiveRequests] = useState([]);
+  const [resolvedRequets, setResolvedRequests] = useState([]);
   const [cameras, setCameras] = useState([]);
   const [selectedCameraIndex, setSelectedCameraIndex] = useState(0);
   const [open, setOpen] = useState(false);
   const [listening, setListening] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   useEffect(() => {
     if (!listening) {
@@ -39,7 +40,7 @@ const HomeLayout = () => {
         const parsedData = JSON.parse(event.data);
 
         if (parsedData) {
-          setRequests((prevRequests) => {
+          setLiveRequests((prevRequests) => {
             return [...prevRequests, parsedData];
           });
         }
@@ -47,11 +48,10 @@ const HomeLayout = () => {
 
       setListening(true);
     }
-    console.log(requests.length);
-    if (requests.length === 1) {
-      setCameras(requests[0].nearestCameras);
+    if (liveRequests.length === 1) {
+      setCameras(liveRequests[0].nearestCameras);
     }
-  }, [listening, requests]);
+  }, [listening, liveRequests]);
 
   const handleCameraClick = (index) => {
     setSelectedCameraIndex(index);
@@ -61,8 +61,13 @@ const HomeLayout = () => {
   const handleRequestClick = (index) => {
     setSelectedRequestIndex(index);
     setSelectedCameraIndex(0);
-    setCameras(requests[index].nearestCameras);
+    setCameras(liveRequests[index].nearestCameras);
   };
+
+  const handleTabChange = (event, newValue) => {
+    setSelectedTab(newValue);
+  };
+
 
   return (
     <Grid container spacing={2} sx={{ p: 1 }}>
@@ -78,7 +83,7 @@ const HomeLayout = () => {
           <Grid item xs={12}>
             <Paper sx={{ height: "88vh", border: "1px solid #d3d3d3" }}>
               <MapWithNoSSR
-                requests={requests}
+                requests={liveRequests}
                 selectedRequestIndex={selectedRequestIndex}
                 handleRequestClick={(index) => handleRequestClick(index)}
                 cameras={cameras}
@@ -96,16 +101,15 @@ const HomeLayout = () => {
               backgroundColor: "#d3d3d3",
               textAlign: "center",
               borderRadius: "5px 5px 0px 0px",
+              height: "6vh",
             }}
           >
             <Typography variant="h6"> Camera Feed </Typography>
           </Box>
+          {cameras.length > 0  && 
           <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
-            <List
-              sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-            >
-              {cameras &&
-                cameras.map((camera, index) => (
+            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+              {cameras.map((camera, index) => (
                   <ListItem
                     key={camera.id}
                     disablePadding
@@ -117,29 +121,36 @@ const HomeLayout = () => {
                   </ListItem>
                 ))}
             </List>
-          </Box>
+          </Box>}
+          {cameras.length === 0 && 
+          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
+              <Typography variant="body2" color="GrayText" align="center"> Select a request to view nearby cameras </Typography>
+          </Box>}
         </Paper>
       </Grid>
       <Grid item xs={3}>
         <Paper sx={{ height: "88vh", border: "1px solid #d3d3d3" }}>
-          <Box
-            sx={{
-              p: 0.3,
-              backgroundColor: "#d3d3d3",
-              textAlign: "center",
-              borderRadius: "5px 5px 0px 0px",
-            }}
-          >
-            <Typography variant="h6"> Requests </Typography>
-          </Box>
-          <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
+        <Tabs value={selectedTab} onChange={handleTabChange} variant="fullWidth" centered sx={{ backgroundColor: "#d3d3d3", borderRadius: "5px 5px 0px 0px", height: "6vh" }}>
+        <Tab label="Live Requests" />
+        <Tab label="Resolved Requests" />
+        </Tabs>
+        {selectedTab === 0 && liveRequests && liveRequests.length === 0 && (
+          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
+            <Typography variant="body2" color="GrayText"> - No Live Requests - </Typography>
+          </Box> )}
+        {selectedTab === 1 && resolvedRequets && resolvedRequets.length === 0 && (
+          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
+            <Typography variant="body2" color="GrayText"> - No resolved requests - </Typography>
+          </Box> )}
+        {selectedTab === 0 && liveRequests && liveRequests.length > 0 && (
+        <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
             <List>
-              {requests &&
-                requests.map((request, index) => (
+              {liveRequests.map((request, index) => (
                   <ListItem key={request.id}>
-                    <RequestCard
-                      setRequests={setRequests}
-                      setRecent={setRecent}
+                  <RequestCard
+                      isResolvedPage={true}
+                      setLiveRequests={setLiveRequests}
+                      setResolvedRequests={setResolvedRequests}
                       key={request.id}
                       request={request}
                       index={index}
@@ -150,6 +161,26 @@ const HomeLayout = () => {
                 ))}
             </List>
           </Box>
+        )}
+        {selectedTab === 1 && resolvedRequets && resolvedRequets.length > 0 && (
+        <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
+            <List>
+              {resolvedRequets.map((request, index) => (
+                  <ListItem key={request.id}>
+                    <RequestCard
+                      setLiveRequests={setLiveRequests}
+                      setResolvedRequests={setResolvedRequests}
+                      key={request.id}
+                      request={request}
+                      index={index}
+                      selectedRequestIndex={selectedRequestIndex}
+                      handleRequestClick={(index) => handleRequestClick(index)}
+                    />
+                  </ListItem>
+                ))}
+            </List>
+          </Box>
+        )}
         </Paper>
       </Grid>
     </Grid>
