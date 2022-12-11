@@ -49,7 +49,7 @@ export default function SignIn() {
               Sign in
             </LoadingButton>
 
-            {error && <p className="text-red-400">{error}</p>}
+            {error && <p style={{color:"#F87171"}}>{error}</p>}
           </Box>
         </Paper>
       </Box>

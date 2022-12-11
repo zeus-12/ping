@@ -22,7 +22,8 @@ const ConfigLayout = () => {
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
-        if(!user) return
+        if (!user) return
+        // ${SERVER_URL}/api/camera?page=${pageno}
         axios.get(`${SERVER_URL}/api/camera/`, { 
             headers: { 
                 "Content-Type": "application/json",
