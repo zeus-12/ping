@@ -122,7 +122,7 @@ const HomeLayout = () => {
           </Box>}
           {cameras.length === 0 && 
           <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
-              <Typography variant="body2" color="GrayText" align="center"> select a request to view nearby cameras </Typography>
+              <Typography variant="body2" color="GrayText" align="center"> Select a request to view nearby cameras </Typography>
           </Box>}
         </Paper>
       </Grid>
@@ -145,7 +145,8 @@ const HomeLayout = () => {
             <List>
               {liveRequests.map((request, index) => (
                   <ListItem key={request.id}>
-                    <RequestCard
+                  <RequestCard
+                      isResolvedPage={true}
                       setLiveRequests={setLiveRequests}
                       setResolvedRequests={setResolvedRequests}
                       key={request.id}
