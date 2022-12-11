@@ -1,23 +1,43 @@
-import {
-  Typography,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
-  IconButton,
-  Box,
-} from "@mui/material";
+import { useReactMediaRecorder } from "react-media-recorder";
 import { Close as CloseIcon } from "@mui/icons-material";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { SERVER_URL } from "../utils/constants";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { BlobServiceClient } from "@azure/storage-blob";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+} from "@mui/material";
 
 const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [startTiming, setStartTiming] = useState(null);
 
   const { user } = useAuthContext();
+  const liveStreamRef = useRef(null);
+  // const canvasElt = document.getElementById("liveFeed");
+
+  // const stream = canvasElt?.captureStream(25); // 25 FPS
+
+  const {
+    status,
+    startRecording: startVideoRecording,
+    stopRecording: stopVideoRecording,
+    mediaBlobUrl,
+    clearBlobUrl,
+  } = useReactMediaRecorder({
+    // customMediaStream: stream,
+    screen: true,
+    audio: false,
+  });
+
+  console.log(mediaBlobUrl);
 
   const handleClose = () => {
     resetRecording();
@@ -26,11 +46,55 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
 
   const resetRecording = () => {
     setIsRecording(false);
+    clearBlobUrl();
     setStartTiming(null);
   };
 
+  const uploadFileToBlob = useCallback(async (file, newFileName) => {
+    const containerName = "recordings";
+    const sasToken =
+      "?sv=2021-06-08&ss=bfqt&srt=sco&sp=rwdlacupiytfx&se=2023-03-29T17:17:36Z&st=2022-12-11T09:17:36Z&spr=https,http&sig=AibAEwBUrfVJ2sDVSmmymrF%2FLVeCB4ay1h0j5NzYhQg%3D";
+    // setLoading(true);
+
+    if (!file) {
+      console.log("no file");
+      // errorNotification("No file selected");
+      return;
+    } else {
+      const blobService = new BlobServiceClient(
+        `https://ping12.blob.core.windows.net/?${sasToken}`
+      );
+
+      try {
+        const containerClient = blobService.getContainerClient(containerName);
+        const blobClient = containerClient.getBlockBlobClient(newFileName);
+        const options = { blobHTTPHeaders: { blobContentType: file.type } };
+
+        const data = await blobClient.uploadData(file, options);
+
+        // todo notification
+      } catch (error) {
+        // todo notification
+      }
+    }
+  }, []);
+
   const saveRecordingToDb = async () => {
-    if (!startTiming) return;
+    console.log("hi");
+    if (!startTiming || !mediaBlobUrl) return;
+    console.log("hi again");
+
+    // upload mediaBlobUrl to azure blob storage
+    const newFileName = `heythere.mp4`;
+    let metadata = {
+      type: "video/mp4",
+    };
+    let file = new File([mediaBlobUrl], newFileName, metadata);
+    console.log(file);
+    var url = URL.createObjectURL(file);
+    console.log(url);
+
+    await uploadFileToBlob(file, newFileName);
 
     const response = await fetch(`${SERVER_URL}/api/record`, {
       method: "POST",
@@ -42,6 +106,7 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
         camera_id: cameraDetails._id,
         start_time: startTiming,
         end_time: new Date(),
+        video_url: "azureblobstorageurl",
       }),
     });
 
@@ -53,12 +118,14 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
   };
 
   const startRecordingHandler = () => {
+    startVideoRecording();
     setStartTiming(new Date());
     setIsRecording(true);
   };
 
   const endRecordingHandler = async () => {
     if (!isRecording || !startTiming) return;
+    stopVideoRecording();
 
     await saveRecordingToDb();
     resetRecording();
@@ -66,6 +133,7 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
 
   const deleteRecordingHandler = () => {
     resetRecording();
+    clearBlobUrl();
   };
 
   return (
@@ -79,14 +147,28 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
       <DialogContent>
         <Box
           sx={{
-            width: "400px",
             height: "60vh",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            flexDirection: "column",
           }}
         >
           <Typography variant="h6"> Camera Feed </Typography>
+          <div className="mx-auto">
+            <iframe
+              id="liveFeed"
+              width="420"
+              height="315"
+              ref={liveStreamRef}
+              src={
+                cameraDetails?.stream_url ||
+                "https://www.youtube.com/embed/0gNauGdOkro"
+              }
+              allowFullScreen
+              muted={true}
+            />
+          </div>
         </Box>
       </DialogContent>
       <DialogActions>

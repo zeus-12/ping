@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.12.0",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.10.15",
@@ -20,7 +21,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-leaflet": "^4.1.0",
-    "react-router-dom": "^6.4.5"
+    "react-media-recorder": "1.6.5"
   },
   "devDependencies": {
     "eslint": "8.28.0",
