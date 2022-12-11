@@ -4,8 +4,12 @@ import AppBar from "../components/AppBar";
 import HomeLayout from "../components/HomeLayout";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { CircularProgress, CssBaseline } from "@mui/material";
+import Head from "next/head";
 
 export default function Home() {
+  
+
+
   const { user } = useAuthContext();
   const router = useRouter();
 
@@ -14,6 +18,11 @@ export default function Home() {
   if (user) {
     return (
       <div>
+      <Head>
+        <title>Ping!</title>
+        <meta name="description" content="Security App for IITM" />
+        {/* <link rel="icon" href="/favicon.ico" /> */}
+      </Head>
         <CssBaseline />
         <AppBar />
         <HomeLayout />
