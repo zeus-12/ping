@@ -21,10 +21,8 @@ export default function Home() {
     );
   } else {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div>
+      <div style={{minHeight:"100vh",display:"flex",alignItems:"center",justifyContent:"center"}} >
           <CircularProgress />
-        </div>
       </div>
     );
   }

@@ -22,10 +22,11 @@ const ConfigLayout = () => {
     const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
+        if(!user) return
         axios.get(`${SERVER_URL}/api/camera/`, { 
             headers: { 
                 "Content-Type": "application/json",
-                "x-access-token": user.token
+                "x-access-token": user?.token
         }}).then((res) => {
             setCameras(res.data.data);
             setFilterOptions((prevOptions) => {
@@ -38,7 +39,7 @@ const ConfigLayout = () => {
                 return newOptions;
             });
         });
-    }, []);
+    }, [user]);
 
     const handleEditBtnClick = (index) => {
         setIsEditing(true);
