@@ -1,13 +1,20 @@
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { CameraAltSharp, ExitToApp as LogoutIcon } from "@mui/icons-material";
+import { ExitToApp as LogoutIcon, Settings as ConfigIcon, Home as HomeIcon } from "@mui/icons-material";
 import { useLogout } from "../hooks/useLogout";
-import { useState } from "react";
-import CameraListModal from "./CameraListModal";
+import { useRouter } from "next/router";
 
 const Appbar = () => {
   const { logout } = useLogout();
+  const router = useRouter();
+  const location = router.pathname.split("/")[1];
 
-  const [isCameraListModalOpen, setIsCameraListModalOpen] = useState(false);
+  const handleChangePage = () => {
+    if (location === "configuration") {
+      router.push("/");
+    } else {
+      router.push("/configuration");
+    }
+  };
 
   return (
     <AppBar position="static">
@@ -17,12 +24,12 @@ const Appbar = () => {
         </Typography>
         <div style={{ display: "flex", gap: "1rem" }}>
           <Button
-            onClick={setIsCameraListModalOpen}
+            onClick={handleChangePage}
             color="inherit"
-            startIcon={<CameraAltSharp />}
+            startIcon={ location === "configuration" ? <HomeIcon /> : <ConfigIcon /> }
             sx={{ border: "1px solid white" }}
           >
-            Cameras
+            {location === "configuration" ? "Home" : "Configuration"}
           </Button>
 
           <Button
@@ -35,10 +42,6 @@ const Appbar = () => {
           </Button>
         </div>
       </Toolbar>
-      <CameraListModal
-        open={isCameraListModalOpen}
-        closeModal={() => setIsCameraListModalOpen((o) => !o)}
-      />
     </AppBar>
   );
 };
