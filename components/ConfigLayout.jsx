@@ -6,7 +6,7 @@ import {
 import dynamic from "next/dynamic";
 import { useState, useEffect } from "react";
 import { SERVER_URL } from "../utils/constants";
-import CamerasTable from "./camerasTable";
+import CamerasTable from "./CamerasTable";
 import AddCamera from "./AddCamera";
 import { useAuthContext } from "../hooks/useAuthContext";
 import axios from "axios";

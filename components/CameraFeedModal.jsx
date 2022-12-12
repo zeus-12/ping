@@ -80,21 +80,19 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
   }, []);
 
   const saveRecordingToDb = async () => {
-    console.log("hi");
-    if (!startTiming || !mediaBlobUrl) return;
-    console.log("hi again");
+    if (!startTiming) return;
 
-    // upload mediaBlobUrl to azure blob storage
-    const newFileName = `heythere.mp4`;
-    let metadata = {
-      type: "video/mp4",
-    };
-    let file = new File([mediaBlobUrl], newFileName, metadata);
-    console.log(file);
-    var url = URL.createObjectURL(file);
-    console.log(url);
+    // // upload mediaBlobUrl to azure blob storage
+    // const newFileName = `heythere.mp4`;
+    // let metadata = {
+    //   type: "video/mp4",
+    // };
+    // let file = new File([mediaBlobUrl], newFileName, metadata);
+    // console.log(file);
+    // var url = URL.createObjectURL(file);
+    // console.log(url);
 
-    await uploadFileToBlob(file, newFileName);
+    // await uploadFileToBlob(file, newFileName);
 
     const response = await fetch(`${SERVER_URL}/api/record`, {
       method: "POST",
