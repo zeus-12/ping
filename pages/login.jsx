@@ -32,14 +32,36 @@ export default function SignIn() {
     router.push("/");
   } else {
     return (
-      <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", background: "url('/images/login-background.jpg')", backgroundSize: "cover" }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+          background: "url('/images/login-background.jpg')",
+          backgroundSize: "cover",
+        }}
+      >
         <Paper sx={{ width: "100%", maxWidth: 400, p: 2 }}>
           <Box>
-            <Typography variant="h5" > Sign in </Typography>
+            <Typography variant="h5"> Sign in </Typography>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 2 }}>
-          <TextField label="Username" value={username} variant="outlined" fullWidth={true} onChange={(e) => setUsername(e.target.value)} />
-          <TextField label="Password" value={password} variant="outlined" fullWidth={true} onChange={(e) => setPassword(e.target.value)} type="password" />
+            <TextField
+              label="Username"
+              value={username}
+              variant="outlined"
+              fullWidth={true}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <TextField
+              label="Password"
+              value={password}
+              variant="outlined"
+              fullWidth={true}
+              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+            />
             <LoadingButton
               variant="contained"
               fullWidth={true}
@@ -49,7 +71,7 @@ export default function SignIn() {
               Sign in
             </LoadingButton>
 
-            {error && <p style={{color:"#F87171"}}>{error}</p>}
+            {error && <p style={{ color: "#F87171" }}>{error}</p>}
           </Box>
         </Paper>
       </Box>

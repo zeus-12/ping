@@ -17,16 +17,16 @@ const RequestCard = ({
   index,
   selectedRequestIndex,
   handleRequestClick,
-  isResolvedPage=false
+  isResolvedPage = false,
 }) => {
   const handleResolveBtnClick = () => {
     if (!isResolvedPage) {
-      setResolvedRequests((prev) => prev.filter((item) => item.id !== request.id));
+      setResolvedRequests((prev) =>
+        prev.filter((item) => item.id !== request.id)
+      );
       setLiveRequests((prev) => [...prev, request]);
       return;
-      
     } else {
-      
       setResolvedRequests((prev) => [...prev, request].slice(-10));
       // todo add notification
       setLiveRequests((prev) => prev.filter((item) => item.id !== request.id));
@@ -41,7 +41,9 @@ const RequestCard = ({
         width: "100%",
       }}
     >
-      <CardActionArea onClick={!isResolvedPage ? ()=>{}:() => handleRequestClick(index)}>
+      <CardActionArea
+        onClick={!isResolvedPage ? () => {} : () => handleRequestClick(index)}
+      >
         <CardContent>
           <h3 gutterBottom variant="h3" component="h3">
             <LocationIcon sx={{ mr: 1 }} color="error" /> {request.label}
@@ -59,9 +61,9 @@ const RequestCard = ({
           variant="contained"
           fullWidth
           onClick={() => handleResolveBtnClick(index)}
-          >
-          {!isResolvedPage? "Undo":"Resolve"}
-          </Button>
+        >
+          {!isResolvedPage ? "Undo" : "Resolve"}
+        </Button>
       </CardActions>
     </Card>
   );

@@ -153,7 +153,7 @@ const CameraFeedModal = ({ open, setOpen, cameraDetails }) => {
           }}
         >
           <Typography variant="h6"> Camera Feed </Typography>
-          <div style={{margin:"0 auto"}} >
+          <div style={{ margin: "0 auto" }}>
             <iframe
               id="liveFeed"
               width="420"

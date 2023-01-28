@@ -5,7 +5,7 @@ const Button = ({ children, fullWidth = false, onClick = () => {} }) => {
     <MUIButton
       fullWidth={fullWidth}
       variant="contained"
-      style={{padding:"0 0.5rem",backgroundColor:"#3B82F6"}}
+      style={{ padding: "0 0.5rem", backgroundColor: "#3B82F6" }}
       onClick={onClick}
     >
       {children}

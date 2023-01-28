@@ -68,7 +68,6 @@ const HomeLayout = () => {
     setSelectedTab(newValue);
   };
 
-
   return (
     <Grid container spacing={2} sx={{ p: 1 }}>
       {cameras && (
@@ -106,10 +105,16 @@ const HomeLayout = () => {
           >
             <Typography variant="h6"> Camera Feed </Typography>
           </Box>
-          {cameras.length > 0  && 
-          <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
-            <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-              {cameras.map((camera, index) => (
+          {cameras.length > 0 && (
+            <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
+              <List
+                sx={{
+                  width: "100%",
+                  maxWidth: 360,
+                  bgcolor: "background.paper",
+                }}
+              >
+                {cameras.map((camera, index) => (
                   <ListItem
                     key={camera.id}
                     disablePadding
@@ -120,34 +125,80 @@ const HomeLayout = () => {
                     </ListItemButton>
                   </ListItem>
                 ))}
-            </List>
-          </Box>}
-          {cameras.length === 0 && 
-          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
-              <Typography variant="body2" color="GrayText" align="center"> Select a request to view nearby cameras </Typography>
-          </Box>}
+              </List>
+            </Box>
+          )}
+          {cameras.length === 0 && (
+            <Box
+              sx={{
+                height: "80vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="body2" color="GrayText" align="center">
+                {" "}
+                Select a request to view nearby cameras{" "}
+              </Typography>
+            </Box>
+          )}
         </Paper>
       </Grid>
       <Grid item xs={3}>
         <Paper sx={{ height: "88vh", border: "1px solid #d3d3d3" }}>
-        <Tabs value={selectedTab} onChange={handleTabChange} variant="fullWidth" centered sx={{ backgroundColor: "#d3d3d3", borderRadius: "5px 5px 0px 0px", height: "6vh" }}>
-        <Tab label="Live Requests" />
-        <Tab label="Resolved Requests" />
-        </Tabs>
-        {selectedTab === 0 && liveRequests && liveRequests.length === 0 && (
-          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
-            <Typography variant="body2" color="GrayText"> - No Live Requests - </Typography>
-          </Box> )}
-        {selectedTab === 1 && resolvedRequets && resolvedRequets.length === 0 && (
-          <Box sx={{ height: "80vh", display: "flex", justifyContent: "center", alignItems: "center" }} >
-            <Typography variant="body2" color="GrayText"> - No resolved requests - </Typography>
-          </Box> )}
-        {selectedTab === 0 && liveRequests && liveRequests.length > 0 && (
-        <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
-            <List>
-              {liveRequests.map((request, index) => (
+          <Tabs
+            value={selectedTab}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            centered
+            sx={{
+              backgroundColor: "#d3d3d3",
+              borderRadius: "5px 5px 0px 0px",
+              height: "6vh",
+            }}
+          >
+            <Tab label="Live Requests" />
+            <Tab label="Resolved Requests" />
+          </Tabs>
+          {selectedTab === 0 && liveRequests && liveRequests.length === 0 && (
+            <Box
+              sx={{
+                height: "80vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="body2" color="GrayText">
+                {" "}
+                - No Live Requests -{" "}
+              </Typography>
+            </Box>
+          )}
+          {selectedTab === 1 &&
+            resolvedRequets &&
+            resolvedRequets.length === 0 && (
+              <Box
+                sx={{
+                  height: "80vh",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="body2" color="GrayText">
+                  {" "}
+                  - No resolved requests -{" "}
+                </Typography>
+              </Box>
+            )}
+          {selectedTab === 0 && liveRequests && liveRequests.length > 0 && (
+            <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
+              <List>
+                {liveRequests.map((request, index) => (
                   <ListItem key={request.id}>
-                  <RequestCard
+                    <RequestCard
                       isResolvedPage={true}
                       setLiveRequests={setLiveRequests}
                       setResolvedRequests={setResolvedRequests}
@@ -159,28 +210,32 @@ const HomeLayout = () => {
                     />
                   </ListItem>
                 ))}
-            </List>
-          </Box>
-        )}
-        {selectedTab === 1 && resolvedRequets && resolvedRequets.length > 0 && (
-        <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
-            <List>
-              {resolvedRequets.map((request, index) => (
-                  <ListItem key={request.id}>
-                    <RequestCard
-                      setLiveRequests={setLiveRequests}
-                      setResolvedRequests={setResolvedRequests}
-                      key={request.id}
-                      request={request}
-                      index={index}
-                      selectedRequestIndex={selectedRequestIndex}
-                      handleRequestClick={(index) => handleRequestClick(index)}
-                    />
-                  </ListItem>
-                ))}
-            </List>
-          </Box>
-        )}
+              </List>
+            </Box>
+          )}
+          {selectedTab === 1 &&
+            resolvedRequets &&
+            resolvedRequets.length > 0 && (
+              <Box sx={{ maxHeight: "80vh", overflow: "auto" }}>
+                <List>
+                  {resolvedRequets.map((request, index) => (
+                    <ListItem key={request.id}>
+                      <RequestCard
+                        setLiveRequests={setLiveRequests}
+                        setResolvedRequests={setResolvedRequests}
+                        key={request.id}
+                        request={request}
+                        index={index}
+                        selectedRequestIndex={selectedRequestIndex}
+                        handleRequestClick={(index) =>
+                          handleRequestClick(index)
+                        }
+                      />
+                    </ListItem>
+                  ))}
+                </List>
+              </Box>
+            )}
         </Paper>
       </Grid>
     </Grid>

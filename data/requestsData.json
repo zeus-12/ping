@@ -1,54 +1,54 @@
 [
-    {
-        "id" : "1",
-        "user" : "user1",
-        "userMobile" : "1234567890",
-        "status" : "PENDING",
-        "label" : "Aerospace Engineering",
-        "created" : "2022-01-01T00:00:00.000Z",
-        "updated" : "2022-01-01T00:00:00.000Z",
-        "location": {
-            "lat": 12.9920608091455,
-            "lng": 80.2286249263044
-        }
-    },
-    {
-        "id" : "2",
-        "user" : "user2",
-        "userMobile" : "1234567890",
-        "status" : "PENDING",
-        "label" : "Department of Electrcal & Electronics",
-        "created" : "2022-01-01T00:10:20.000Z",
-        "updated" : "2022-01-01T00:10:20.000Z",
-        "location": {
-            "lat": 12.988756295781878,
-            "lng": 80.2307668539626
-        }
-    },
-    {
-        "id" : "3",
-        "user" : "user3",
-        "userMobile" : "1234567890",
-        "status" : "PENDING",
-        "label" : "Department of Engineering Design",
-        "created" : "2022-01-01T00:11:30.000Z",
-        "updated" : "2022-01-01T00:11:30.000Z",
-        "location": {
-            "lat": 12.98983372088069,
-            "lng": 80.226414991252
-        }
-    },
-    {
-        "id" : "4",
-        "user" : "user4",
-        "userMobile" : "1234567890",
-        "status" : "PENDING",
-        "label" : "Brahmaputra Hostel",
-        "created" : "2022-01-01T00:12:40.000Z",
-        "updated" : "2022-01-01T00:12:40.000Z",
-        "location": {
-            "lat": 12.98383372098069,
-            "lng": 80.23414091252
-        }
+  {
+    "id": "1",
+    "user": "user1",
+    "userMobile": "1234567890",
+    "status": "PENDING",
+    "label": "Aerospace Engineering",
+    "created": "2022-01-01T00:00:00.000Z",
+    "updated": "2022-01-01T00:00:00.000Z",
+    "location": {
+      "lat": 12.9920608091455,
+      "lng": 80.2286249263044
     }
+  },
+  {
+    "id": "2",
+    "user": "user2",
+    "userMobile": "1234567890",
+    "status": "PENDING",
+    "label": "Department of Electrcal & Electronics",
+    "created": "2022-01-01T00:10:20.000Z",
+    "updated": "2022-01-01T00:10:20.000Z",
+    "location": {
+      "lat": 12.988756295781878,
+      "lng": 80.2307668539626
+    }
+  },
+  {
+    "id": "3",
+    "user": "user3",
+    "userMobile": "1234567890",
+    "status": "PENDING",
+    "label": "Department of Engineering Design",
+    "created": "2022-01-01T00:11:30.000Z",
+    "updated": "2022-01-01T00:11:30.000Z",
+    "location": {
+      "lat": 12.98983372088069,
+      "lng": 80.226414991252
+    }
+  },
+  {
+    "id": "4",
+    "user": "user4",
+    "userMobile": "1234567890",
+    "status": "PENDING",
+    "label": "Brahmaputra Hostel",
+    "created": "2022-01-01T00:12:40.000Z",
+    "updated": "2022-01-01T00:12:40.000Z",
+    "location": {
+      "lat": 12.98383372098069,
+      "lng": 80.23414091252
+    }
+  }
 ]

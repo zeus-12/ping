@@ -1,5 +1,9 @@
 import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import { ExitToApp as LogoutIcon, Settings as ConfigIcon, Home as HomeIcon } from "@mui/icons-material";
+import {
+  ExitToApp as LogoutIcon,
+  Settings as ConfigIcon,
+  Home as HomeIcon,
+} from "@mui/icons-material";
 import { useLogout } from "../hooks/useLogout";
 import { useRouter } from "next/router";
 
@@ -26,7 +30,9 @@ const Appbar = () => {
           <Button
             onClick={handleChangePage}
             color="inherit"
-            startIcon={ location === "configuration" ? <HomeIcon /> : <ConfigIcon /> }
+            startIcon={
+              location === "configuration" ? <HomeIcon /> : <ConfigIcon />
+            }
             sx={{ border: "1px solid white" }}
           >
             {location === "configuration" ? "Home" : "Configuration"}
