@@ -1,0 +1,26 @@
+{
+  "name": "ping_user_mobile",
+  "version": "1.0.0",
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "eas-cli": "^2.8.0",
+    "expo": "~47.0.8",
+    "expo-cli": "^6.0.8",
+    "expo-location": "~15.0.1",
+    "expo-status-bar": "~1.4.2",
+    "nativewind": "^2.0.11",
+    "react": "18.1.0",
+    "react-native": "0.70.5"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "tailwindcss": "^3.2.4"
+  },
+  "private": true
+}
