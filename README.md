@@ -7,17 +7,15 @@
 
 - Techstack used: Next JS, Express JS, MongoDB, Azure.
 
-3 apps:
+# 3 apps:
 
 ## Admin Dashboard app
 
 <img width="1440" alt="Web UI 1" src="./assets/ui-1.png">
 <img width="1440" alt="Web UI 2" src="./assets/ui-2.png">
 
-## Ping Mobile App Repo
+## Mobile App Repo
 
 <img width="1440" alt="ping" src="./assets/mobile-demo.png">
 
-## Ping Backend Repo
-
-# Screenshots
+## Backend Repo
