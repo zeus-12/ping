@@ -14,8 +14,8 @@
 <img width="1440" alt="Web UI 1" src="./assets/ui-1.png">
 <img width="1440" alt="Web UI 2" src="./assets/ui-2.png">
 
-## Mobile App Repo
+## Mobile App
 
 <img width="1440" alt="ping" src="./assets/mobile-demo.png">
 
-## Backend Repo
+## Backend
